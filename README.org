@@ -42,9 +42,9 @@ Host <HOSTNAME>
 In ~/etc/profile~ or your ~*.rc~ of choice:
 
 #+BEGIN_SRC sh
-export GOPATH=/go
-export GOBIN=/go/bin
-export PATH=$PATH:/go/bin
+export GOPATH=<PATH_TO_GO_DIR>
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOBIN
 #+END_SRC
 
 *** Configure your local environment:
