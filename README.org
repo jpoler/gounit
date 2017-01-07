@@ -3,6 +3,7 @@
 go-unit.el provides a convenient interface for running go unit tests.
 
 This package provides helm autocompletions for all go packages under GOPATH on the target host, and also helm completions for unit tests within the specified package(s).
+ [[https://cloud.githubusercontent.com/assets/5551484/21745056/4439b308-d4d7-11e6-9ab6-73c70d086816.gif]]
 
 ** installation
 
