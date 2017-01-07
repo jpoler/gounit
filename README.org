@@ -13,7 +13,7 @@ Install cask first. See emacs doc for doing it any other way.
 Execute this within the repository that contains your cask file:
 
 #+BEGIN_SRC sh
-git clone https://github.com/jpoler/gounit.git $(cask package-directory)/gounit-0.0.1
+git clone https://github.com/jpoler/gounit.git $(cask package-directory)/gounit-<VERSION>.
 #+END_SRC
 
 Alternatively, you can clone whereever and just symlink it in your cask package-directory. Cask requires that the directory name be ~<PACKAGE_NAME>-<VERSION>~. You can get the version from ~gounit-pkg.el~.
