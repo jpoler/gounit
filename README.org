@@ -18,7 +18,7 @@ Execute this within the repository that contains your cask file:
 git clone https://github.com/jpoler/gounit.git $(cask package-directory)/gounit-<VERSION>.
 #+END_SRC
 
-Alternatively, you can clone whereever and just symlink it in your cask package-directory. Cask requires that the directory name be ~<PACKAGE_NAME>-<VERSION>~. You can get the version from ~gounit-pkg.el~.
+Alternatively, you can clone where ever and just symlink it in your cask package-directory. Cask requires that the directory name be ~<PACKAGE_NAME>-<VERSION>~. You can get the version from ~gounit-pkg.el~.
 
 *** Add the following to your ~init.el~:
 #+BEGIN_SRC emacs-lisp
