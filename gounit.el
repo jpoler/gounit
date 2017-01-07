@@ -67,7 +67,7 @@
   "Run unit tests.
 Arguments for package and test name are collected via helm."
   (interactive)
-  (let* ((host-name "centos_devbox")
+  (let* ((host-name (getenv "GOUNIT_REMOTE_HOST"))
 		 (package (gounit-get-package-to-test host-name))
 		 (test (gounit-search-for-tests-in-go-package host-name package)))
 	(message (format "package: %s, test %s\n" package test))
@@ -116,7 +116,7 @@ Arguments for package and test name are collected via helm."
 
 (defun gounit-search-for-tests-in-go-package (host-name package)
   "Search for tests under golang GOPATH in PACKAGE."
-  (let*  ((package-path (concat "/ssh:centos_devbox:/go/src/" package))
+  (let*  ((package-path (concat (format "/ssh:%s:/go/src/" host-name) package))
 		  (test-files (f-files package-path 'gounit-keep-test-files)))
 	(defun grep-for-tests ()
 	  (let ((command
@@ -126,7 +126,7 @@ Arguments for package and test name are collected via helm."
 		 "grep-list-unit-tests"
 		 nil
 		 "ssh"
-		 "centos_devbox"
+		 host-name
 		 command)))	
 	(helm :sources (helm-build-async-source "Choose a test to run:"
 					 :candidates-process 'grep-for-tests
