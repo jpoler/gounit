@@ -20,19 +20,11 @@
 
 ;;; Commentary:
 
-;; go-unit.el provides convenience functions for running go unit tests.
+;; go-unit.el provides a convenient interface for running go unit tests.
 ;;
-;; There are two cases for running tests:
-;;
-;; 1. The code to be run resides on the same host as the running Emacs
-;; instance.
-;; 2. The code resides on a remote host.
-;;
-;; This package attempts to hide the differences for running tests on
-;; local or remote hosts.  Also, this package provides helm
-;; autocompletions for all go packages under GOPATH on the target
-;; host, and also helm completions for unit tests within the specified
-;; package(s).
+;; This package provides helm autocompletions for all go packages
+;; under GOPATH on the target host, and also helm completions for unit
+;; tests within the specified package(s).
 
 ;;; Code:
 

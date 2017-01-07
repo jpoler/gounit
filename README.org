@@ -1,0 +1,59 @@
+* gounit.el
+
+go-unit.el provides a convenient interface for running go unit tests.
+
+This package provides helm autocompletions for all go packages under GOPATH on the target host, and also helm completions for unit tests within the specified package(s).
+
+** installation
+
+Install cask first. See emacs doc for doing it any other way.
+
+*** Clone this repository to ~$(cask package-directory)/gounit-0.0.1~.
+*** Add the following to your ~init.el~:
+#+BEGIN_SRC emacs-lisp
+  (require 'gounit)
+
+  ;; Optional, but useful. You can change the keybinding as needed.
+  (global-set-key (kbd "C-c m") 'gounit-run-tests)
+#+END_SRC
+*** Configure ssh on the remote host:
+
+The assumption is that an ssh key will be used for login. That means that on the target host, you have to add ~$HOME/.ssh/authorized_keys~ with the key fingerprint of the ssh key you will be using for login.
+
+*** Configure ssh locally:
+
+Here's what mine looks like:
+
+#+BEGIN_SRC conf
+Host <HOSTNAME>
+  HostName <IP>
+  User <USERNAME>
+  Port <PORT>
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  PasswordAuthentication no
+  IdentityFile <PATH_TO_PRIVATE_KEY>
+  IdentitiesOnly yes
+  LogLevel FATAL
+#+END_SRC
+
+*** Configure environment on remote host:
+
+In ~/etc/profile~ or your ~*.rc~ of choice:
+
+#+BEGIN_SRC sh
+export GOPATH=/go
+export GOBIN=/go/bin
+export PATH=$PATH:/go/bin
+#+END_SRC
+
+*** Configure your local environment:
+
+#+BEGIN_SRC sh
+export GOUNIT_REMOTE_HOST="<HOSTNAME_FROM_SSH_CONFIG>"
+#+END_SRC
+
+
+
+
+
