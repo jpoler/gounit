@@ -32,6 +32,7 @@
 (require 'compile)
 (require 'f)
 (require 'helm)
+(require 'projectile)
 
 (cl-defun gounit-build-go-test-command (&key (host-name nil) (package nil) (test nil))
   (print (mapconcat 'identity (list host-name package test) "\n"))

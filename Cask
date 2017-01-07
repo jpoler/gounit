@@ -9,6 +9,7 @@
 (depends-on "compile")
 (depends-on "f")
 (depends-on "helm")
+(depends-on "projectile")
 
 (development
  (depends-on "ecukes")
