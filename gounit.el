@@ -126,7 +126,14 @@ Arguments for package and test name are collected via helm."
   (and
    cand
    (or (when (< (length helm-pattern) 3) cand)
-	   (and (string-match helm-pattern cand) cand))))
+	   (let ((pieces (split-string helm-pattern " ")))
+		 (and
+		  (cl-reduce (lambda (prev cur)
+					   (and prev
+							(string-match cur cand)))
+					 pieces
+					 :initial-value t)
+		  cand)))))
 
 (defun gounit-tests-candidate-transformer (candidates _source)
   (cl-reduce (lambda (cand rest)
