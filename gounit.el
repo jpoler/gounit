@@ -65,7 +65,7 @@ Arguments for package and test name are collected via helm."
 			  :test test))))
 
 (defun gounit-get-package-to-test (host-name)
-  (defun find-go-packages ()
+  (defun gounit-find-go-packages ()
 	(let* ((root (projectile-project-root))
 
 		   ;; TODO we really need to fail hard here if we can't match
@@ -82,13 +82,13 @@ Arguments for package and test name are collected via helm."
 	   host-name
 	   (format "bash -lc 'go list %s/...'" package-root))))
   (helm :sources (helm-build-async-source "Choose a package to test:"
-				   :candidates-process 'find-go-packages
+				   :candidates-process 'gounit-find-go-packages
 				   :filtered-candidate-transformer 'gounit-packages-candidates-transformer)
 		:buffer "*helm choose go package*"))
 
 (defun gounit-packages-candidates-transformer (candidates _source)
   (cl-reduce (lambda (cand rest)
-			   (if (match-helm-pattern cand)
+			   (if (gounit-match-helm-pattern cand)
 				   (cons cand rest)
 				 rest))
 			 candidates
@@ -102,7 +102,7 @@ Arguments for package and test name are collected via helm."
   "Search for tests under golang GOPATH in PACKAGE."
   (let*  ((package-path (concat (format "/ssh:%s:/go/src/" host-name) package))
 		  (test-files (f-files package-path 'gounit-keep-test-files)))
-	(defun grep-for-tests ()
+	(defun gounit-grep-for-tests ()
 	  (let ((command
 			 (format "bash -lc 'grep -hI '[T]est' %s'"
 					 (mapconcat 'request-untrampify-filename test-files " "))))
@@ -113,16 +113,16 @@ Arguments for package and test name are collected via helm."
 		 host-name
 		 command)))	
 	(helm :sources (helm-build-async-source "Choose a test to run:"
-					 :candidates-process 'grep-for-tests
+					 :candidates-process 'gounit-grep-for-tests
 					 :filtered-candidate-transformer 'gounit-tests-candidate-transformer)
 		  :buffer "*helm choose unit test*")))
 
-(defun extract-test-name (cand)
+(defun gounit-extract-test-name (cand)
   (when (stringp cand)
 	(and (string-match "func \\([T]est[[:alnum:]_]*\\)(" cand)
 		 (match-string 1 cand))))
 
-(defun match-helm-pattern (cand)
+(defun gounit-match-helm-pattern (cand)
   (and
    cand
    (or (when (< (length helm-pattern) 3) cand)
@@ -130,8 +130,8 @@ Arguments for package and test name are collected via helm."
 
 (defun gounit-tests-candidate-transformer (candidates _source)
   (cl-reduce (lambda (cand rest)
-			   (let* ((test-name (extract-test-name cand))			   
-					  (match (match-helm-pattern test-name)))
+			   (let* ((test-name (gounit-extract-test-name cand))			   
+					  (match (gounit-match-helm-pattern test-name)))
 				 (if (and test-name match)
 					 (cons test-name rest)
 				   rest)))
