@@ -35,23 +35,19 @@
 (require 'projectile)
 
 (cl-defun gounit-build-go-test-command (&key (host-name nil) (package nil) (test nil))
-  (print (mapconcat 'identity (list host-name package test) "\n"))
   (let* ((args '())
 		 (command-string '()))
 	(when test
 	  (setq command-string (append command-string '("-run %s$")))
-	  (setq args (append args (list test)))
-	  )
-	
+	  (setq args (append args (list test))))
 	(when package
 	  (setq command-string (append '("go test -v ") command-string '(" %s ")))
 	  (setq args (append args (list package))))
 	(when host-name
 	  (setq command-string (append '("ssh %s 'bash -c -l \"") command-string '("\"'") ))
 	  (setq args (append (list host-name) args)))
-
-	(print command-string)
 	(apply 'format (cons (apply 'concat command-string) args))))
+
 
 ;; TODO exit when the fist helm call is exited from by user
 ;; TODO also do better error handling and figure out throw/catch or
@@ -63,7 +59,6 @@ Arguments for package and test name are collected via helm."
   (let* ((host-name (getenv "GOUNIT_REMOTE_HOST"))
 		 (package (gounit-get-package-to-test host-name))
 		 (test (gounit-search-for-tests-in-go-package host-name package)))
-	(message (format "package: %s, test %s\n" package test))
 	(compile (gounit-build-go-test-command
 			  :host-name host-name
 			  :package package
@@ -80,15 +75,12 @@ Arguments for package and test name are collected via helm."
 		   ;; fail though.
 		   (package-root (and (string-match "\\/src\\/" root)
 							  (substring root (match-end 0)))))
-	  (print (concat "project root: " package-root))
-
 	  (start-process
 	   "list-go-packages"
 	   nil
 	   "ssh"
 	   host-name
 	   (format "bash -lc 'go list %s/...'" package-root))))
-  (print (symbol-function 'find-go-packages))	
   (helm :sources (helm-build-async-source "Choose a package to test:"
 				   :candidates-process 'find-go-packages
 				   :filtered-candidate-transformer 'gounit-packages-candidates-transformer)
@@ -102,7 +94,6 @@ Arguments for package and test name are collected via helm."
 			 candidates
 			 :initial-value '()
 			 :from-end t))
-
 
 (defun gounit-keep-test-files (filepath)
   (string-match ".*_test\.go" filepath))
@@ -148,6 +139,7 @@ Arguments for package and test name are collected via helm."
 			 :initial-value '()
 			 :from-end t))
 
+;; TODO add tests
 ;; TODO skip tests and run whole package
 ;; TODO allow going back from package selection (could be hard)
 ;; TODO error out with no package
