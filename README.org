@@ -8,38 +8,46 @@ This package provides helm autocompletions for all go packages under GOPATH on t
 
 Install cask first. See emacs doc for doing it any other way.
 
-*** Clone this repository to ~$(cask package-directory)/gounit-0.0.1~.
+*** Clone this repository 
+
+Execute this within the repository that contains your cask file:
+
+#+BEGIN_SRC sh
+git clone https://github.com/jpoler/gounit.git $(cask package-directory)/gounit-0.0.1
+#+END_SRC
+
+Alternatively, you can clone whereever and just symlink it in your cask package-directory. Cask requires that the directory name be ~<PACKAGE_NAME>-<VERSION>~. You can get the version from ~gounit-pkg.el~.
+
 *** Add the following to your ~init.el~:
 #+BEGIN_SRC emacs-lisp
   (require 'gounit)
 
-  ;; Optional, but useful. You can change the keybinding as needed.
+  ;; Optional, but useful.
   (global-set-key (kbd "C-c m") 'gounit-run-tests)
 #+END_SRC
 *** Configure ssh on the remote host:
 
-The assumption is that an ssh key will be used for login. That means that on the target host, you have to add ~$HOME/.ssh/authorized_keys~ with the key fingerprint of the ssh key you will be using for login.
+The assumption is that an ssh key will be used for login. That means that on the target host, you have to add ~$HOME/.ssh/authorized_keys~ with the public key of the private ssh key you will be using for login.
 
 *** Configure ssh locally:
 
-Here's what mine looks like:
-
 #+BEGIN_SRC conf
 Host <HOSTNAME>
+  CheckHostIP yes
   HostName <IP>
-  User <USERNAME>
-  Port <PORT>
-  UserKnownHostsFile /dev/null
-  StrictHostKeyChecking no
-  PasswordAuthentication no
-  IdentityFile <PATH_TO_PRIVATE_KEY>
   IdentitiesOnly yes
+  IdentityFile <PATH_TO_PRIVATE_KEY>
   LogLevel FATAL
+  PasswordAuthentication no
+  Port <PORT>
+  StrictHostKeyChecking yes
+  User <USERNAME>
+  UserKnownHostsFile <PATH_TO_KNOWN_HOSTS>
 #+END_SRC
 
 *** Configure environment on remote host:
 
-In ~/etc/profile~ or your ~*.rc~ of choice:
+In ~/etc/profile~ or your ~.*rc~ of choice:
 
 #+BEGIN_SRC sh
 export GOPATH=<PATH_TO_GO_DIR>
