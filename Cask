@@ -5,8 +5,6 @@
 
 (files "*.el")
 
-(depends-on "cl" "0.0.1")
-(depends-on "compile" "0.0.1")
 (depends-on "f" "20161002.800")
 (depends-on "helm" "2.3.4")
 (depends-on "projectile" "0.4")
