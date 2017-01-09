@@ -12,13 +12,17 @@ Install cask first. See emacs doc for doing it any other way.
 
 *** Clone this repository 
 
-Execute this within the repository that contains your cask file:
+Add this line to your ~Cask~ file:
 
-#+BEGIN_SRC sh
-git clone https://github.com/jpoler/gounit.git $(cask package-directory)/gounit-<VERSION>.
+#+BEGIN_SRC emacs-lisp
+(depends-on "gounit" :git "https://github.com/jpoler/gounit.git")
 #+END_SRC
 
-Alternatively, you can clone where ever and just symlink it in your cask package-directory. Cask requires that the directory name be ~<PACKAGE_NAME>-<VERSION>~. You can get the version from ~gounit-pkg.el~.
+Now in your ~emacs.d/~
+
+#+BEGIN_SRC sh
+cask
+#+END_SRC
 
 *** Add the following to your ~init.el~:
 #+BEGIN_SRC emacs-lisp
