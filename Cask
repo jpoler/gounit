@@ -5,11 +5,11 @@
 
 (files "*.el")
 
-(depends-on "cl")
-(depends-on "compile")
-(depends-on "f")
-(depends-on "helm")
-(depends-on "projectile")
+(depends-on "cl" "0.0.1")
+(depends-on "compile" "0.0.1")
+(depends-on "f" "20161002.800")
+(depends-on "helm" "2.3.4")
+(depends-on "projectile" "0.4")
 
 (development
  (depends-on "ecukes")
